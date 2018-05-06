@@ -2,6 +2,8 @@
 
 Based on [homeassistant-home-assistant](https://hub.docker.com/r/homeassistant/home-assistant/) image.
 
+Please [report issues on github](https://github.com/vladbabii/homeassistant-socat/issues).
+
 Instead of using a locally-connected zwave device (usb stick/etc), we can use a serial device mapped over the network with ser2net and then map it to a local zwave serial device with socat.
 
 This docker container ensures that
