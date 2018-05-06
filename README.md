@@ -1,6 +1,6 @@
 # Home Assistant with socat for remote zwave
 
-Based on [homeassistant-home-assistant](https://hub.docker.com/r/homeassistant/home-assistant/) image.
+Based on [homeassistant-home-assistant](https://hub.docker.com/r/homeassistant/home-assistant/) image, [published on docker hub](https://hub.docker.com/r/vladbabii/homeassistant-socat/).
 
 Please [report issues on github](https://github.com/vladbabii/homeassistant-socat/issues).
 
