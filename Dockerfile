@@ -9,6 +9,7 @@ COPY runwatch/200.home-assistant.enabled.sh /runwatch/200.home-assistant.enabled
 
 # Install socat
 RUN apt update
+RUN apt install apt-utils
 RUN apt install socat
 
 # Monitor socat
