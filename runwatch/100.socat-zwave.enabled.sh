@@ -9,9 +9,12 @@ fi
 if [[ -z "${SOCAT_ZWAVE_LINK}" ]]; then
   SOCAT_ZWAVE_LINK="/dev/zwave"
 fi
+if [[ -z "${SOCAT_DEFAULTS}" ]]; then
+  SOCAT_DEFAULTS='-d -d -d'
+fi
 
 BINARY="socat"
-PARAMS="$INT_SOCAT_LOG-d -d -d pty,link=$SOCAT_ZWAVE_LINK,raw,user=root,mode=777 $SOCAT_ZWAVE_TYPE:$SOCAT_ZWAVE_HOST:$SOCAT_ZWAVE_PORT"
+PARAMS="$SOCAT_ZWAVE_LOG $SOCAT_DEFAULTS pty,link=$SOCAT_ZWAVE_LINK,raw,user=root,group=dialout,mode=777 $SOCAT_ZWAVE_TYPE:$SOCAT_ZWAVE_HOST:$SOCAT_ZWAVE_PORT"
 
 ######################################################
 
@@ -36,10 +39,10 @@ is-running)
         exit 1
     fi
     # stop home assistant if socat is not running 
-    if pgrep -f "python -m homeassistant" >/dev/null 2>&1 ; then
-        echo "stopping home assistant since socat is not running"
-        kill -9 $(pgrep -f "python -m homeassistant")
-    fi
+    # if pgrep -f "python -m homeassistant" >/dev/null 2>&1 ; then
+    #     echo "stopping home assistant since socat is not running"
+    #     kill -9 $(pgrep -f "python -m homeassistant")
+    # fi
     exit 0
     ;;
 

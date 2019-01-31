@@ -1,21 +1,12 @@
-FROM "homeassistant/home-assistant:latest"
+FROM "homeassistant/aarch64-homeassistant:latest"
 LABEL maintainer="Vlad Babii"
 
 RUN mkdir /runwatch
-COPY runwatch/run.sh /runwatch/run.sh
-
-# Monitor HomeAssistant
-COPY runwatch/200.home-assistant.enabled.sh /runwatch/200.home-assistant.enabled.sh
+COPY runwatch/* /runwatch/
+RUN chmod +x /runwatch/*
 
 # Install socat
-RUN apt update
-RUN apt install apt-utils
-RUN apt install socat
+RUN apk add socat
 
-# Monitor socat
-COPY runwatch/100.socat-zwave.enabled.sh /runwatch/100.socat-zwave.enabled.sh
-
-# clear apt stuff
-
-
-CMD [ "bash","/runwatch/run.sh" ]
+ENTRYPOINT [ "/bin/entry.sh" ]
+CMD [ "/bin/bash","/runwatch/run.sh" ]
