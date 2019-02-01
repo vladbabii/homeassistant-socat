@@ -1,24 +1,22 @@
 #!/usr/bin/with-contenv bash
 
-# if [[ -z "${SOCAT_ZWAVE_TYPE}" ]]; then
-#   SOCAT_ZWAVE_TYPE="tcp"
-# fi
-# if [[ -z "${SOCAT_ZWAVE_LOG}" ]]; then
-#   SOCAT_ZWAVE_LOG="-lf \"$SOCAT_ZWAVE_LOG\""
-# fi
-# if [[ -z "${SOCAT_ZWAVE_LINK}" ]]; then
-#   SOCAT_ZWAVE_LINK="/dev/zwave"
-# fi
-# if [[ -z "${SOCAT_DEFAULTS}" ]]; then
-#   SOCAT_DEFAULTS='-d -d -d'
-# fi
+if [[ -z "${SOCAT_ZWAVE_TYPE}" ]]; then
+  SOCAT_ZWAVE_TYPE=tcp
+fi
+if [[ -z "${SOCAT_ZWAVE_LOG}" ]]; then
+  SOCAT_ZWAVE_LOG="-lf \"$SOCAT_ZWAVE_LOG\""
+fi
+if [[ -z "${SOCAT_ZWAVE_LINK}" ]]; then
+  SOCAT_ZWAVE_LINK=/dev/zwave
+fi
+if [[ -z "${SOCAT_DEFAULTS}" ]]; then
+  SOCAT_DEFAULTS='-d -d -d -s'
+fi
 
-# echo $SOCAT_ZWAVE_LOG $SOCAT_DEFAULTS \
-#     pty,link=$SOCAT_ZWAVE_LINK,raw,user=root,group=dialout,mode=777 \
-#     $SOCAT_ZWAVE_TYPE:$SOCAT_ZWAVE_HOST:$SOCAT_ZWAVE_PORT
+echo Starting socat $SOCAT_ZWAVE_LOG $SOCAT_DEFAULTS \
+    pty,link=$SOCAT_ZWAVE_LINK,raw,user=root,group=dialout,mode=777 \
+    $SOCAT_ZWAVE_TYPE:$SOCAT_ZWAVE_HOST:$SOCAT_ZWAVE_PORT
 
-# socat $SOCAT_ZWAVE_LOG $SOCAT_DEFAULTS \
-#     pty,link=$SOCAT_ZWAVE_LINK,raw,user=root,group=dialout,mode=777 \
-#     $SOCAT_ZWAVE_TYPE:$SOCAT_ZWAVE_HOST:$SOCAT_ZWAVE_PORT
-
-socat -d -d -s pty,link=/dev/zwave,raw,user=root,group=dialout,mode=777 tcp:192.168.10.92:8122
+socat $SOCAT_ZWAVE_LOG $SOCAT_DEFAULTS \
+    pty,link=$SOCAT_ZWAVE_LINK,raw,user=root,group=dialout,mode=777 \
+    $SOCAT_ZWAVE_TYPE:$SOCAT_ZWAVE_HOST:$SOCAT_ZWAVE_PORT
