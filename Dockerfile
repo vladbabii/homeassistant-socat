@@ -1,11 +1,10 @@
-
-
-FROM "homeassistant/aarch64-homeassistant:latest"
-LABEL maintainer="shbatm"
+ARG BUILD_FROM="homeassistant/home-assistant:latest"
+FROM ${BUILD_FROM}
+LABEL maintainer="Vlad Babii"
 
 # set version for s6 overlay
 ARG OVERLAY_VERSION="v1.21.7.0"
-ARG OVERLAY_ARCH="aarch64"
+ARG BUILD_ARCH="aarch64"
 
 RUN \
  apk add --no-cache --virtual=build-dependencies \
@@ -15,7 +14,7 @@ RUN \
  # add s6 overlay
  curl -o \
  /tmp/s6-overlay.tar.gz -L \
-    "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${OVERLAY_ARCH}.tar.gz" && \
+    "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${BUILD_ARCH}.tar.gz" && \
  tar xfz \
     /tmp/s6-overlay.tar.gz -C / && \ 
 
