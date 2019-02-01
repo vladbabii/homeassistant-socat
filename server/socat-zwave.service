@@ -1,0 +1,13 @@
+[Unit]
+Description=Multipurpose relay (SOcket CAT)
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/default/socat.conf
+Type=simple
+PIDFile=/var/run/socat.pid
+ExecStart=/usr/bin/socat -L /var/run/socat.pid $SOCAT_DEFAULTS $SOCAT_SERVER
+ExecStop=/bin/kill -SIGKILL $MAINPID
+
+[Install]
+WantedBy=multi-user.target

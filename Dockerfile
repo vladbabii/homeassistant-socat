@@ -1,21 +1,36 @@
-FROM "homeassistant/home-assistant:latest"
+ARG BUILD_FROM="homeassistant/home-assistant:latest"
+FROM ${BUILD_FROM}
 LABEL maintainer="Vlad Babii"
 
-RUN mkdir /runwatch
-COPY runwatch/run.sh /runwatch/run.sh
+# set version for s6 overlay
+ARG OVERLAY_VERSION="v1.21.7.0"
+ARG BUILD_ARCH="aarch64"
 
-# Monitor HomeAssistant
-COPY runwatch/200.home-assistant.enabled.sh /runwatch/200.home-assistant.enabled.sh
+RUN \
+ apk add --no-cache --virtual=build-dependencies \
+    curl \
+    tar && \
 
-# Install socat
-RUN apt update
-RUN apt install apt-utils
-RUN apt install socat
+ # add s6 overlay
+ curl -o \
+ /tmp/s6-overlay.tar.gz -L \
+    "https://github.com/just-containers/s6-overlay/releases/download/${OVERLAY_VERSION}/s6-overlay-${BUILD_ARCH}.tar.gz" && \
+ tar xfz \
+    /tmp/s6-overlay.tar.gz -C / && \ 
 
-# Monitor socat
-COPY runwatch/100.socat-zwave.enabled.sh /runwatch/100.socat-zwave.enabled.sh
+ # install socat
+ apk add --no-cache \
+  socat && \
 
-# clear apt stuff
+
+ # clean up
+ apk del --purge \
+    build-dependencies && \
+ rm -rf \
+    /tmp/*
 
 
-CMD [ "bash","/runwatch/run.sh" ]
+# add local files
+COPY root/ /
+
+ENTRYPOINT [ "/init" ]
