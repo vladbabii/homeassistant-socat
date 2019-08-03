@@ -16,5 +16,6 @@ RUN apt install socat -y
 COPY runwatch/100.socat-zwave.enabled.sh /runwatch/100.socat-zwave.enabled.sh
 
 # clear apt stuff
+##
 
 CMD [ "bash","/runwatch/run.sh" ]
